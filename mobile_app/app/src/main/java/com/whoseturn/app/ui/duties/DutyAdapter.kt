@@ -1,16 +1,20 @@
 package com.whoseturn.app.ui.duties
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.whoseturn.app.R
+import com.whoseturn.app.data.api.TokenManager
 import com.whoseturn.app.data.model.DutySchedule
 import com.whoseturn.app.databinding.ItemDutyBinding
+import com.whoseturn.app.util.ImageLoader
 
 class DutyAdapter(
-    private val currentUserId: Int,
+    private var currentUserId: Int,
     private val onCompleteClick: (DutySchedule) -> Unit,
     private val onSwapClick: (DutySchedule) -> Unit
 ) : RecyclerView.Adapter<DutyAdapter.DutyViewHolder>() {
@@ -25,7 +29,7 @@ class DutyAdapter(
     }
 
     fun submitList(items: List<DutySchedule>, userId: Int) {
-        // userId ni saqlab qo'yish uchun currentUserId ni yangilash
+        this.currentUserId = userId
         allItems.clear()
         allItems.addAll(items)
         filter("all")
@@ -60,9 +64,34 @@ class DutyAdapter(
             val context = binding.root.context
             binding.tvDutyType.text = item.dutyType?.name ?: "Navbatchilik"
             val studentName = item.assignedTo?.fullName ?: "Noma'lum"
-            binding.tvAssignedStudent.text = "👤 $studentName"
+            binding.tvAssignedStudent.text = studentName
             val orderText = if (item.orderIndex > 0) "#${item.orderIndex}-navbat" else "Ketma-ket"
             binding.tvDutyDate.text = orderText
+
+            // Profil rasmi yoki standart avatar
+            val tokenManager = TokenManager(context)
+            val baseUrl = tokenManager.getBaseUrl().replace("/api/v1/", "").replace("/api/v1", "")
+            val picUrl = item.assignedTo?.profilePicture
+
+            fun setDefaultAvatar() {
+                binding.ivStudentAvatar.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.primary))
+                val pad = (context.resources.displayMetrics.density * 3).toInt()
+                binding.ivStudentAvatar.setPadding(pad, pad, pad, pad)
+                binding.ivStudentAvatar.scaleType = ImageView.ScaleType.FIT_CENTER
+                binding.ivStudentAvatar.setImageResource(R.drawable.ic_profile)
+            }
+
+            if (!picUrl.isNullOrEmpty()) {
+                setDefaultAvatar()
+                val fullUrl = if (picUrl.startsWith("http")) picUrl else "$baseUrl$picUrl"
+                ImageLoader.load(fullUrl, binding.ivStudentAvatar, R.drawable.ic_profile, onSuccess = {
+                    binding.ivStudentAvatar.imageTintList = null
+                    binding.ivStudentAvatar.setPadding(0, 0, 0, 0)
+                    binding.ivStudentAvatar.scaleType = ImageView.ScaleType.CENTER_CROP
+                })
+            } else {
+                setDefaultAvatar()
+            }
 
             when (item.status) {
                 "completed" -> {

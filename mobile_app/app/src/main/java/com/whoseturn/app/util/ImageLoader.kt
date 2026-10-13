@@ -24,7 +24,13 @@ object ImageLoader {
         }
     }
 
-    fun load(url: String, imageView: ImageView, placeholderRes: Int? = null) {
+    fun load(
+        url: String,
+        imageView: ImageView,
+        placeholderRes: Int? = null,
+        onSuccess: (() -> Unit)? = null
+    ) {
+        imageView.tag = url
         if (url.isEmpty()) {
             placeholderRes?.let { imageView.setImageResource(it) }
             return
@@ -33,6 +39,7 @@ object ImageLoader {
         val cached = memoryCache.get(url)
         if (cached != null) {
             imageView.setImageBitmap(cached)
+            onSuccess?.invoke()
             return
         }
 
@@ -45,7 +52,10 @@ object ImageLoader {
                 if (bitmap != null) {
                     memoryCache.put(url, bitmap)
                     withContext(Dispatchers.Main) {
-                        imageView.setImageBitmap(bitmap)
+                        if (imageView.tag == url) {
+                            imageView.setImageBitmap(bitmap)
+                            onSuccess?.invoke()
+                        }
                     }
                 }
             } catch (e: Exception) {

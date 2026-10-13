@@ -4,6 +4,7 @@ package com.whoseturn.app.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -28,6 +29,12 @@ public final class ItemDutyBinding implements ViewBinding {
   public final MaterialButton btnSwap;
 
   @NonNull
+  public final MaterialCardView cardStudentAvatar;
+
+  @NonNull
+  public final ImageView ivStudentAvatar;
+
+  @NonNull
   public final LinearLayout layoutActions;
 
   @NonNull
@@ -43,12 +50,15 @@ public final class ItemDutyBinding implements ViewBinding {
   public final TextView tvDutyType;
 
   private ItemDutyBinding(@NonNull MaterialCardView rootView, @NonNull MaterialButton btnComplete,
-      @NonNull MaterialButton btnSwap, @NonNull LinearLayout layoutActions,
+      @NonNull MaterialButton btnSwap, @NonNull MaterialCardView cardStudentAvatar,
+      @NonNull ImageView ivStudentAvatar, @NonNull LinearLayout layoutActions,
       @NonNull TextView tvAssignedStudent, @NonNull TextView tvDutyDate,
       @NonNull TextView tvDutyStatus, @NonNull TextView tvDutyType) {
     this.rootView = rootView;
     this.btnComplete = btnComplete;
     this.btnSwap = btnSwap;
+    this.cardStudentAvatar = cardStudentAvatar;
+    this.ivStudentAvatar = ivStudentAvatar;
     this.layoutActions = layoutActions;
     this.tvAssignedStudent = tvAssignedStudent;
     this.tvDutyDate = tvDutyDate;
@@ -95,6 +105,18 @@ public final class ItemDutyBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.cardStudentAvatar;
+      MaterialCardView cardStudentAvatar = ViewBindings.findChildViewById(rootView, id);
+      if (cardStudentAvatar == null) {
+        break missingId;
+      }
+
+      id = R.id.ivStudentAvatar;
+      ImageView ivStudentAvatar = ViewBindings.findChildViewById(rootView, id);
+      if (ivStudentAvatar == null) {
+        break missingId;
+      }
+
       id = R.id.layoutActions;
       LinearLayout layoutActions = ViewBindings.findChildViewById(rootView, id);
       if (layoutActions == null) {
@@ -125,8 +147,9 @@ public final class ItemDutyBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ItemDutyBinding((MaterialCardView) rootView, btnComplete, btnSwap, layoutActions,
-          tvAssignedStudent, tvDutyDate, tvDutyStatus, tvDutyType);
+      return new ItemDutyBinding((MaterialCardView) rootView, btnComplete, btnSwap,
+          cardStudentAvatar, ivStudentAvatar, layoutActions, tvAssignedStudent, tvDutyDate,
+          tvDutyStatus, tvDutyType);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

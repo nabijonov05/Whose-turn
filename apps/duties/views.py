@@ -70,40 +70,30 @@ class DutyScheduleViewSet(viewsets.ModelViewSet):
               notification_type="general",
           )
 
-          # KETMA-KETLIK: Keyingi navbatchini aniqlash va unga bildirishnoma yuborish!
+          # KETMA-KETLIK: Keyingi navbatchini aniqlash va navbatni unga o'tkazish!
           next_duty = DutySchedule.objects.filter(
               room=schedule.room,
               status='pending',
               order_index__gt=schedule.order_index
           ).order_by('order_index').first()
 
-          # Agar navbat tugagan bo'lsa, zanjirni boshidan qaytarish (aylanma navbat)
+          # Agar navbat oxiriga yetgan bo'lsa (hamma bajargan bo'lsa), zanjirni boshidan qaytarish (aylanma navbat)
           if not next_duty:
-            next_duty = DutySchedule.objects.filter(
-                room=schedule.room,
-                status='pending'
-            ).order_by('order_index').first()
+            # Hamma bajargan navbatlarni qaytadan aylanma qilish uchun pending qilish
+            all_room_duties = DutySchedule.objects.filter(room=schedule.room).order_by('order_index')
+            if all_room_duties.count() > 1:
+              # O'zidan boshqa barcha navbatlarni pending holatiga qaytarish
+              DutySchedule.objects.filter(room=schedule.room).exclude(id=schedule.id).update(status='pending')
+              next_duty = DutySchedule.objects.filter(room=schedule.room, status='pending').order_by('order_index').first()
 
-          if next_duty and next_duty.assigned_to != schedule.assigned_to:
+          if next_duty:
             next_name = next_duty.assigned_to.first_name or next_duty.assigned_to.username
             Notification.objects.create(
                 user=next_duty.assigned_to,
                 title="🔔 Navbat sizga o'tdi!",
-                message=f"{schedule.assigned_to.first_name or schedule.assigned_to.username} navbatni bajardi. Endi '{next_duty.duty_type.name}' navbati sizga keldi!",
+                message=f"{schedule.assigned_to.first_name or schedule.assigned_to.username} '{schedule.duty_type.name}' navbatini bajardi. Endi '{next_duty.duty_type.name}' navbati sizga keldi!",
                 notification_type="duty_reminder",
             )
-
-        elif new_status == 'failed' and old_status == 'pending':
-          rating.score = max(0, rating.score - 15)
-          rating.failed_duties_count += 1
-          rating.save()
-          from apps.notifications.models import Notification
-          Notification.objects.create(
-              user=schedule.assigned_to,
-              title="❌ Navbat bajarilmadi! -15 ball",
-              message=f"'{schedule.duty_type.name}' navbati bajarilmadi. 15 ball ayrildi. Umumiy ball: {rating.score}",
-              notification_type="general",
-          )
       except Exception:
         pass
 

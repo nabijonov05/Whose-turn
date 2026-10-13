@@ -3249,6 +3249,7 @@ id cardDutyStats
 id cardExpenseSummary
 id cardLogin
 id cardRegister
+id cardStudentAvatar
 id cardTodayDuty
 id carryVelocity
 id center
@@ -3406,6 +3407,7 @@ id inward
 id italic
 id item_touch_helper_previous_elevation
 id ivProfilePicture
+id ivStudentAvatar
 id jumpToEnd
 id jumpToStart
 id labeled

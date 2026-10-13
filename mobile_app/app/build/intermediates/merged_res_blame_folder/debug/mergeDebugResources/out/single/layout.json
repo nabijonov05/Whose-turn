@@ -20,10 +20,6 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\dialog_add_expense.xml"
     },
     {
-        "merged": "com.whoseturn.app-mergeDebugResources-38:/layout/fragment_duties.xml",
-        "source": "com.whoseturn.app-main-41:/layout/fragment_duties.xml"
-    },
-    {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-mergeDebugResources-38:\\layout\\activity_login.xml",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\activity_login.xml"
     },
@@ -70,6 +66,10 @@
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-mergeDebugResources-38:\\layout\\fragment_notifications.xml",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\fragment_notifications.xml"
+    },
+    {
+        "merged": "com.whoseturn.app-mergeDebugResources-38:/layout/item_duty.xml",
+        "source": "com.whoseturn.app-main-41:/layout/item_duty.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-mergeDebugResources-38:\\layout\\activity_main.xml",

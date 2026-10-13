@@ -23,7 +23,6 @@ class DutySchedule(models.Model):
   STATUS_CHOICES = (
       ('pending', 'Kutilmoqda'),
       ('completed', 'Bajarildi'),
-      ('failed', 'Bajarilmadi'),
   )
 
   room = models.ForeignKey(

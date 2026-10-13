@@ -54,6 +54,7 @@ id cardDutyStats
 id cardExpenseSummary
 id cardLogin
 id cardRegister
+id cardStudentAvatar
 id cardTodayDuty
 id chipAll
 id chipCompleted
@@ -84,6 +85,7 @@ id fabAddExpense
 id imgLogo
 id imgNotifIcon
 id ivProfilePicture
+id ivStudentAvatar
 id layoutActions
 id layoutAvatarContainer
 id nav_host_fragment
