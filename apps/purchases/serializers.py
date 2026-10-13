@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from apps.users.serializers import UserSerializer
+from apps.users.serializers import RoomSerializer, UserSerializer
 from .models import Expense, ExpenseCategory, SharedPayment
 
 
@@ -19,6 +19,7 @@ class SharedPaymentSerializer(serializers.ModelSerializer):
 
 
 class ExpenseSerializer(serializers.ModelSerializer):
+  room = RoomSerializer(read_only=True)
   payer = UserSerializer(read_only=True)
   category = ExpenseCategorySerializer(read_only=True)
   shares = SharedPaymentSerializer(many=True, read_only=True)
