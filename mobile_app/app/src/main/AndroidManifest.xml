@@ -39,6 +39,11 @@
             android:exported="false"
             android:theme="@style/Theme.WhoseTurn.NoActionBar" />
 
+        <receiver
+            android:name=".util.NotificationReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
     </application>
 
 </manifest>

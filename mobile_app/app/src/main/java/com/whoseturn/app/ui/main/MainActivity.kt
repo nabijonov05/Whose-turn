@@ -23,6 +23,7 @@ import com.whoseturn.app.ui.notifications.NotificationsFragment
 import com.whoseturn.app.ui.profile.ProfileFragment
 import com.whoseturn.app.util.LocaleHelper
 import com.whoseturn.app.util.NotificationHelper
+import com.whoseturn.app.util.NotificationReceiver
 import com.whoseturn.app.util.ThemeHelper
 import kotlinx.coroutines.launch
 
@@ -57,6 +58,7 @@ class MainActivity : AppCompatActivity() {
         NotificationHelper.createNotificationChannel(this)
         requestNotificationPermissionIfNeeded()
 
+        NotificationReceiver.schedulePeriodicCheck(this)
         setupBottomNavigation()
         loadUserProfile()
         checkNewNotifications()
@@ -65,6 +67,11 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             replaceFragment(DutiesFragment(), getString(R.string.nav_duties))
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateNotificationBadge()
     }
 
     private fun requestNotificationPermissionIfNeeded() {
@@ -96,6 +103,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.navigation_notifications -> {
                     replaceFragment(NotificationsFragment(), getString(R.string.nav_notifications))
+                    clearNotificationBadge()
                     true
                 }
                 R.id.navigation_profile -> {
@@ -130,27 +138,52 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkNewNotifications() {
+    private fun updateNotificationBadge() {
         lifecycleScope.launch {
             try {
-                // Kuniga faqat 1 marta tekshirish va ko'rsatish
-                if (!NotificationHelper.shouldShowDailyNotification(this@MainActivity)) {
-                    return@launch
+                val api = ApiClient.getService(this@MainActivity)
+                val resp = api.getNotifications()
+                if (resp.isSuccessful && resp.body() != null) {
+                    val unreadCount = resp.body()!!.count { !it.isRead }
+                    if (unreadCount > 0) {
+                        val badge = binding.bottomNavigation.getOrCreateBadge(R.id.navigation_notifications)
+                        badge.isVisible = true
+                        badge.number = unreadCount
+                    } else {
+                        binding.bottomNavigation.removeBadge(R.id.navigation_notifications)
+                    }
                 }
+            } catch (e: Exception) {
+                // Ignore badge failure
+            }
+        }
+    }
 
+    private fun clearNotificationBadge() {
+        binding.bottomNavigation.removeBadge(R.id.navigation_notifications)
+    }
+
+    private fun checkNewNotifications() {
+        updateNotificationBadge()
+        lifecycleScope.launch {
+            try {
                 val api = ApiClient.getService(this@MainActivity)
                 val resp = api.getNotifications()
                 if (resp.isSuccessful && resp.body() != null) {
                     val unread = resp.body()!!.filter { !it.isRead }
                     if (unread.isNotEmpty()) {
                         val latest = unread.first()
-                        NotificationHelper.showSmsNotification(
-                            this@MainActivity,
-                            latest.title,
-                            latest.message,
-                            latest.id
-                        )
-                        NotificationHelper.markDailyNotificationShown(this@MainActivity, latest.id)
+                        val prefs = getSharedPreferences("notification_worker_prefs", Context.MODE_PRIVATE)
+                        val lastShownId = prefs.getInt("last_bg_notified_id", -1)
+                        if (latest.id > lastShownId) {
+                            NotificationHelper.showSmsNotification(
+                                this@MainActivity,
+                                latest.title,
+                                latest.message,
+                                latest.id
+                            )
+                            prefs.edit().putInt("last_bg_notified_id", latest.id).apply()
+                        }
                     }
                 }
             } catch (e: Exception) {
