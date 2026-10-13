@@ -51,10 +51,20 @@ class LeaderboardAdapter : RecyclerView.Adapter<LeaderboardAdapter.LeaderboardVi
             binding.tvRank.backgroundTintList = ColorStateList.valueOf(badgeColor)
 
             binding.tvStudentName.text = item.user.fullName
-            val roomNumber = item.user.room?.number ?: "Xonasiz"
-            binding.tvStudentRoom.text = "$roomNumber-xona • ${item.completedDutiesCount} ta bajarilgan"
+            val blockName = item.user.room?.block?.name ?: ""
+            val roomNumber = item.user.room?.number
+            val roomDisplay = if (roomNumber != null) {
+                if (blockName.isNotEmpty()) "$blockName • $roomNumber-xona" else "$roomNumber-xona"
+            } else "Xonasiz"
+            binding.tvStudentRoom.text = "$roomDisplay • ✅${item.completedDutiesCount} ta bajarilgan"
 
-            binding.tvScore.text = item.score.toString()
+            binding.tvScore.text = "${item.score} ball"
+            val scoreColor = when {
+                item.score >= 90 -> ContextCompat.getColor(context, R.color.success)
+                item.score >= 60 -> ContextCompat.getColor(context, R.color.warning)
+                else -> ContextCompat.getColor(context, R.color.danger)
+            }
+            binding.tvScore.setTextColor(scoreColor)
         }
     }
 }

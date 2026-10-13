@@ -5,12 +5,29 @@ from .serializers import PenaltySerializer, StudentRatingSerializer
 
 
 class PenaltyViewSet(viewsets.ModelViewSet):
-  queryset = Penalty.objects.all()
   serializer_class = PenaltySerializer
   permission_classes = [IsAuthenticated]
 
+  def get_queryset(self):
+    # Faqat o'z xonasidagi jarimalarni ko'rsatish
+    user = self.request.user
+    if user.room:
+      return Penalty.objects.filter(user__room=user.room).order_by('-created_at')
+    return Penalty.objects.filter(user=user).order_by('-created_at')
+
 
 class StudentRatingViewSet(viewsets.ModelViewSet):
-  queryset = StudentRating.objects.all()
   serializer_class = StudentRatingSerializer
   permission_classes = [IsAuthenticated]
+
+  def get_queryset(self):
+    user = self.request.user
+    # Xonadoshlarning reytinglarini ko'rsatish (Ranking bo'limi)
+    if user.room:
+      # O'z xonasidagilarning reytingi + boshqa barcha talabalar
+      return StudentRating.objects.filter(
+          user__room=user.room
+      ).select_related('user', 'user__room', 'user__room__block').order_by('-score')
+    return StudentRating.objects.all().select_related(
+        'user', 'user__room', 'user__room__block'
+    ).order_by('-score')

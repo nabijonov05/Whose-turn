@@ -24,6 +24,13 @@ class DutyAdapter(
         filter("all")
     }
 
+    fun submitList(items: List<DutySchedule>, userId: Int) {
+        // userId ni saqlab qo'yish uchun currentUserId ni yangilash
+        allItems.clear()
+        allItems.addAll(items)
+        filter("all")
+    }
+
     fun filter(type: String) {
         displayedItems.clear()
         when (type) {

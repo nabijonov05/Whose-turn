@@ -7,9 +7,9 @@ from .views import (
 )
 
 router = DefaultRouter()
-router.register(r'duty-types', DutyTypeViewSet)
-router.register(r'schedules', DutyScheduleViewSet)
-router.register(r'swap-requests', DutySwapRequestViewSet)
+router.register(r'duty-types', DutyTypeViewSet, basename='duty-type')
+router.register(r'schedules', DutyScheduleViewSet, basename='schedule')
+router.register(r'swap-requests', DutySwapRequestViewSet, basename='swap-request')
 
 urlpatterns = [
     path('', include(router.urls)),
