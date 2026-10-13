@@ -4,10 +4,6 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\fragment_duties.xml"
     },
     {
-        "merged": "com.whoseturn.app-mergeDebugResources-38:/layout/activity_register.xml",
-        "source": "com.whoseturn.app-main-41:/layout/activity_register.xml"
-    },
-    {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-mergeDebugResources-38:\\layout\\dialog_add_duty.xml",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\dialog_add_duty.xml"
     },
@@ -22,14 +18,6 @@
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-mergeDebugResources-38:\\layout\\dialog_add_expense.xml",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\dialog_add_expense.xml"
-    },
-    {
-        "merged": "com.whoseturn.app-mergeDebugResources-38:/layout/fragment_expenses.xml",
-        "source": "com.whoseturn.app-main-41:/layout/fragment_expenses.xml"
-    },
-    {
-        "merged": "com.whoseturn.app-mergeDebugResources-38:/layout/fragment_duties.xml",
-        "source": "com.whoseturn.app-main-41:/layout/fragment_duties.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-mergeDebugResources-38:\\layout\\activity_login.xml",
@@ -48,14 +36,6 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\item_leaderboard.xml"
     },
     {
-        "merged": "com.whoseturn.app-mergeDebugResources-38:/layout/fragment_profile.xml",
-        "source": "com.whoseturn.app-main-41:/layout/fragment_profile.xml"
-    },
-    {
-        "merged": "com.whoseturn.app-mergeDebugResources-38:/layout/dialog_edit_profile.xml",
-        "source": "com.whoseturn.app-main-41:/layout/dialog_edit_profile.xml"
-    },
-    {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-mergeDebugResources-38:\\layout\\dialog_swap_request.xml",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\dialog_swap_request.xml"
     },
@@ -66,6 +46,14 @@
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-mergeDebugResources-38:\\layout\\item_expense.xml",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\item_expense.xml"
+    },
+    {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-mergeDebugResources-38:\\layout\\dialog_change_password.xml",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\dialog_change_password.xml"
+    },
+    {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-mergeDebugResources-38:\\layout\\dialog_edit_profile.xml",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\dialog_edit_profile.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-mergeDebugResources-38:\\layout\\activity_register.xml",
@@ -80,15 +68,15 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\fragment_notifications.xml"
     },
     {
+        "merged": "com.whoseturn.app-mergeDebugResources-38:/layout/item_duty.xml",
+        "source": "com.whoseturn.app-main-41:/layout/item_duty.xml"
+    },
+    {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-mergeDebugResources-38:\\layout\\activity_main.xml",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\activity_main.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-mergeDebugResources-38:\\layout\\item_notification.xml",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\item_notification.xml"
-    },
-    {
-        "merged": "com.whoseturn.app-mergeDebugResources-38:/layout/dialog_change_password.xml",
-        "source": "com.whoseturn.app-main-41:/layout/dialog_change_password.xml"
     }
 ]

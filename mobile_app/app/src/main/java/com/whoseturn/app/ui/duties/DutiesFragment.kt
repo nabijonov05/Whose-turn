@@ -47,6 +47,9 @@ class DutiesFragment : Fragment() {
         setupRecyclerView()
         setupFilterChips()
 
+        // Faqat admin yoki blok sardorlariga navbat qo'shish tugmasini ko'rsatish
+        binding.fabAddDuty.visibility = View.GONE
+
         binding.swipeRefresh.setOnRefreshListener {
             loadData()
         }
@@ -89,6 +92,8 @@ class DutiesFragment : Fragment() {
                 val profileResp = api.getProfile()
                 if (profileResp.isSuccessful && profileResp.body() != null) {
                     currentUser = profileResp.body()
+                    val isAdminOrLeader = currentUser?.role == "admin" || currentUser?.role == "block_leader"
+                    binding.fabAddDuty.visibility = if (isAdminOrLeader) View.VISIBLE else View.GONE
                     setupRecyclerView()
                 }
 

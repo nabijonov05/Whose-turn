@@ -12,16 +12,24 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\drawable\\bg_card.xml"
     },
     {
+        "merged": "com.whoseturn.app-debug-39:/layout_item_duty.xml.flat",
+        "source": "com.whoseturn.app-main-41:/layout/item_duty.xml"
+    },
+    {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\layout_fragment_leaderboard.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\fragment_leaderboard.xml"
+    },
+    {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\drawable\\ic_launcher_background.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\drawable_ic_duties.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\drawable\\ic_duties.xml"
     },
     {
-        "merged": "com.whoseturn.app-debug-39:/layout_dialog_change_password.xml.flat",
-        "source": "com.whoseturn.app-main-41:/layout/dialog_change_password.xml"
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\layout_dialog_change_password.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\dialog_change_password.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\xml_data_extraction_rules.xml.flat",
@@ -48,6 +56,10 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\item_expense.xml"
     },
     {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+    },
+    {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\layout_item_duty.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\item_duty.xml"
     },
@@ -68,12 +80,16 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\xml\\backup_rules.xml"
     },
     {
-        "merged": "com.whoseturn.app-debug-39:/layout_fragment_expenses.xml.flat",
-        "source": "com.whoseturn.app-main-41:/layout/fragment_expenses.xml"
-    },
-    {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\drawable_ic_expenses.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\drawable\\ic_expenses.xml"
+    },
+    {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\layout_dialog_edit_profile.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\dialog_edit_profile.xml"
+    },
+    {
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\mipmap-anydpi-v26\\ic_launcher.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\drawable_bg_badge_completed.xml.flat",
@@ -88,16 +104,12 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\fragment_duties.xml"
     },
     {
-        "merged": "com.whoseturn.app-debug-39:/drawable_ic_launcher_foreground.xml.flat",
-        "source": "com.whoseturn.app-main-41:/drawable/ic_launcher_foreground.xml"
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\drawable_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\drawable\\ic_launcher_foreground.xml"
     },
     {
-        "merged": "com.whoseturn.app-debug-39:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
-        "source": "com.whoseturn.app-main-41:/mipmap-anydpi-v26/ic_launcher_round.xml"
-    },
-    {
-        "merged": "com.whoseturn.app-debug-39:/drawable_ic_launcher.xml.flat",
-        "source": "com.whoseturn.app-main-41:/drawable/ic_launcher.xml"
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\drawable_ic_launcher.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\drawable\\ic_launcher.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\layout_activity_main.xml.flat",
@@ -106,14 +118,6 @@
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\drawable_bg_badge_pending.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\drawable\\bg_badge_pending.xml"
-    },
-    {
-        "merged": "com.whoseturn.app-debug-39:/layout_fragment_duties.xml.flat",
-        "source": "com.whoseturn.app-main-41:/layout/fragment_duties.xml"
-    },
-    {
-        "merged": "com.whoseturn.app-debug-39:/drawable_ic_launcher_background.xml.flat",
-        "source": "com.whoseturn.app-main-41:/drawable/ic_launcher_background.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\layout_dialog_server_config.xml.flat",
@@ -140,24 +144,12 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\drawable\\ic_profile.xml"
     },
     {
-        "merged": "com.whoseturn.app-debug-39:/mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "com.whoseturn.app-main-41:/mipmap-anydpi-v26/ic_launcher.xml"
-    },
-    {
-        "merged": "com.whoseturn.app-debug-39:/layout_fragment_profile.xml.flat",
-        "source": "com.whoseturn.app-main-41:/layout/fragment_profile.xml"
-    },
-    {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\drawable_ic_leaderboard.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\drawable\\ic_leaderboard.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\drawable_bg_badge_failed.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\drawable\\bg_badge_failed.xml"
-    },
-    {
-        "merged": "com.whoseturn.app-debug-39:/layout_dialog_edit_profile.xml.flat",
-        "source": "com.whoseturn.app-main-41:/layout/dialog_edit_profile.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\drawable_ic_settings.xml.flat",
@@ -174,9 +166,5 @@
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\layout_item_leaderboard.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\item_leaderboard.xml"
-    },
-    {
-        "merged": "com.whoseturn.app-debug-39:/layout_activity_register.xml.flat",
-        "source": "com.whoseturn.app-main-41:/layout/activity_register.xml"
     }
 ]

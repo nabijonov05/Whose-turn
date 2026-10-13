@@ -60,10 +60,9 @@ class DutyAdapter(
             val context = binding.root.context
             binding.tvDutyType.text = item.dutyType?.name ?: "Navbatchilik"
             val studentName = item.assignedTo?.fullName ?: "Noma'lum"
-            val orderText = if (item.orderIndex > 0) "#${item.orderIndex}-navbat" else ""
-            binding.tvAssignedStudent.text = if (orderText.isNotEmpty()) "$orderText: 👤 $studentName" else "👤 $studentName"
-            val dateDisplay = if (!item.date.isNullOrEmpty()) "📅 ${item.date}" else "🔄 Ketma-ket navbat"
-            binding.tvDutyDate.text = dateDisplay
+            binding.tvAssignedStudent.text = "👤 $studentName"
+            val orderText = if (item.orderIndex > 0) "#${item.orderIndex}-navbat" else "Ketma-ket"
+            binding.tvDutyDate.text = orderText
 
             when (item.status) {
                 "completed" -> {
