@@ -133,6 +133,11 @@ class MainActivity : AppCompatActivity() {
     private fun checkNewNotifications() {
         lifecycleScope.launch {
             try {
+                // Kuniga faqat 1 marta tekshirish va ko'rsatish
+                if (!NotificationHelper.shouldShowDailyNotification(this@MainActivity)) {
+                    return@launch
+                }
+
                 val api = ApiClient.getService(this@MainActivity)
                 val resp = api.getNotifications()
                 if (resp.isSuccessful && resp.body() != null) {
@@ -145,6 +150,7 @@ class MainActivity : AppCompatActivity() {
                             latest.message,
                             latest.id
                         )
+                        NotificationHelper.markDailyNotificationShown(this@MainActivity, latest.id)
                     }
                 }
             } catch (e: Exception) {
@@ -152,4 +158,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 }

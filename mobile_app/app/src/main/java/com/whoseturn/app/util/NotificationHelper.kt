@@ -18,6 +18,35 @@ object NotificationHelper {
     private const val CHANNEL_NAME = "Navbatchilik va Xabarlar"
     private const val CHANNEL_DESC = "Navbat eslatmalari, yangi xarajatlar va muhim bildirishnomalar"
 
+    private const val PREFS_NAME = "notification_prefs"
+    private const val KEY_LAST_NOTIFIED_DATE = "last_notified_date"
+    private const val KEY_LAST_NOTIFIED_ID = "last_notified_id"
+
+    fun shouldShowDailyNotification(context: Context, notificationId: Int = -1): Boolean {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val today = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault()).format(java.util.Date())
+        val lastDate = prefs.getString(KEY_LAST_NOTIFIED_DATE, null)
+        val lastId = prefs.getInt(KEY_LAST_NOTIFIED_ID, -1)
+
+        // Bir kunda faqat bir marta kelishi uchun:
+        if (today == lastDate) {
+            return false
+        }
+        if (notificationId != -1 && notificationId == lastId) {
+            return false
+        }
+        return true
+    }
+
+    fun markDailyNotificationShown(context: Context, notificationId: Int = -1) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val today = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault()).format(java.util.Date())
+        prefs.edit()
+            .putString(KEY_LAST_NOTIFIED_DATE, today)
+            .putInt(KEY_LAST_NOTIFIED_ID, notificationId)
+            .apply()
+    }
+
     fun createNotificationChannel(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)

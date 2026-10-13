@@ -162,8 +162,9 @@ data class AuthResponse(
 data class CreateExpenseRequest(
     val title: String,
     val amount: Double,
-    @SerializedName("category_id") val categoryId: Int
+    @SerializedName("category_id") val categoryId: Int? = null
 )
+
 
 data class CreateSwapRequest(
     @SerializedName("requested_to_id") val requestedToId: Int,

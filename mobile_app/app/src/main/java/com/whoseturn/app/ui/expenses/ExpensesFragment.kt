@@ -197,7 +197,11 @@ class ExpensesFragment : Fragment() {
         val etAmount = dialogView.findViewById<EditText>(R.id.etExpenseAmount)
         val spinner = dialogView.findViewById<Spinner>(R.id.spinnerCategory)
 
-        val catNames = categories.map { it.name }
+        val catNames = if (categories.isNotEmpty()) {
+            categories.map { it.name }
+        } else {
+            listOf("Oziq-ovqat", "Tozalash vositalari", "Kommunal", "Boshqa")
+        }
         spinner.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, catNames)
 
         AlertDialog.Builder(requireContext())
@@ -212,8 +216,11 @@ class ExpensesFragment : Fragment() {
                     return@setPositiveButton
                 }
 
-                val selectedCategory = if (categories.isNotEmpty()) categories[spinner.selectedItemPosition] else null
-                val catId = selectedCategory?.id ?: 1
+                val catId = if (categories.isNotEmpty() && spinner.selectedItemPosition in categories.indices) {
+                    categories[spinner.selectedItemPosition].id
+                } else {
+                    null
+                }
 
                 viewLifecycleOwner.lifecycleScope.launch {
                     try {
@@ -225,7 +232,8 @@ class ExpensesFragment : Fragment() {
                             Toast.makeText(requireContext(), "Xarajat qo'shildi va xonadoshlarga teng bo'lindi!", Toast.LENGTH_LONG).show()
                             loadData()
                         } else {
-                            Toast.makeText(requireContext(), "Qo'shishda xatolik: ${resp.code()}", Toast.LENGTH_SHORT).show()
+                            val err = resp.errorBody()?.string() ?: "Xatolik kodi: ${resp.code()}"
+                            Toast.makeText(requireContext(), "Qo'shishda xatolik: $err", Toast.LENGTH_LONG).show()
                         }
                     } catch (e: Exception) {
                         Toast.makeText(requireContext(), "Xatolik: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
@@ -234,6 +242,7 @@ class ExpensesFragment : Fragment() {
             }
             .setNegativeButton("Bekor qilish", null)
             .show()
+
     }
 
     override fun onDestroyView() {
