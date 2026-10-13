@@ -24,7 +24,8 @@ class ExpenseSerializer(serializers.ModelSerializer):
   shares = SharedPaymentSerializer(many=True, read_only=True)
 
   category_id = serializers.PrimaryKeyRelatedField(
-      queryset=ExpenseCategory.objects.all(), source='category', write_only=True
+      queryset=ExpenseCategory.objects.all(), source='category', write_only=True,
+      required=False, allow_null=True
   )
 
   class Meta:
