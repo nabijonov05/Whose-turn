@@ -3356,7 +3356,6 @@ id etUsername
 id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
-id fabAddDuty
 id fabAddExpense
 id fade
 id fill

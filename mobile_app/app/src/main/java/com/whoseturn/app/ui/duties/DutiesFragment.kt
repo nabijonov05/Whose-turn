@@ -47,15 +47,8 @@ class DutiesFragment : Fragment() {
         setupRecyclerView()
         setupFilterChips()
 
-        // Faqat admin yoki blok sardorlariga navbat qo'shish tugmasini ko'rsatish
-        binding.fabAddDuty.visibility = View.GONE
-
         binding.swipeRefresh.setOnRefreshListener {
             loadData()
-        }
-
-        binding.fabAddDuty.setOnClickListener {
-            showAddDutyDialog()
         }
 
         loadData()
@@ -92,8 +85,6 @@ class DutiesFragment : Fragment() {
                 val profileResp = api.getProfile()
                 if (profileResp.isSuccessful && profileResp.body() != null) {
                     currentUser = profileResp.body()
-                    val isAdminOrLeader = currentUser?.role == "admin" || currentUser?.role == "block_leader"
-                    binding.fabAddDuty.visibility = if (isAdminOrLeader) View.VISIBLE else View.GONE
                     setupRecyclerView()
                 }
 
@@ -289,79 +280,6 @@ class DutiesFragment : Fragment() {
                         } else {
                             val err = resp.errorBody()?.string() ?: resp.code().toString()
                             Toast.makeText(requireContext(), "So'rov yuborilmadi: $err", Toast.LENGTH_SHORT).show()
-                        }
-                    } catch (e: Exception) {
-                        Toast.makeText(requireContext(), "Xatolik: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-            .setNegativeButton("Bekor qilish", null)
-            .show()
-    }
-
-    private fun showAddDutyDialog() {
-        if (dutyTypes.isEmpty()) {
-            Toast.makeText(requireContext(), "Navbat turlari yuklanmoqda, qayta urinib ko'ring", Toast.LENGTH_SHORT).show()
-            loadData()
-            return
-        }
-
-        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_duty, null)
-        val spinnerDuty = dialogView.findViewById<Spinner>(R.id.spinnerDutyType)
-        val spinnerAssign = dialogView.findViewById<Spinner>(R.id.spinnerAssignTo)
-        val etDate = dialogView.findViewById<EditText>(R.id.etDate)
-
-        val todayStr = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-        etDate.setText(todayStr)
-
-        val dutyNames = dutyTypes.map { it.name }
-        spinnerDuty.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, dutyNames)
-
-        // Barcha xonadoshlarni ko'rsatish (o'zi + xonadoshlari)
-        val allStudents = mutableListOf<User>()
-        currentUser?.let { allStudents.add(it) }
-        allStudents.addAll(roommates.filter { it.id != currentUser?.id })
-        val studentNames = allStudents.map { if (it.id == currentUser?.id) "👤 Siz (${it.fullName})" else it.fullName }
-        spinnerAssign.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, studentNames)
-
-        AlertDialog.Builder(requireContext())
-            .setTitle("Navbat biriktirish")
-            .setView(dialogView)
-            .setPositiveButton("Biriktirish") { _, _ ->
-                if (dutyTypes.isEmpty() || allStudents.isEmpty()) return@setPositiveButton
-
-                val selectedDuty = dutyTypes[spinnerDuty.selectedItemPosition]
-                val selectedStudent = allStudents[spinnerAssign.selectedItemPosition]
-                val date = etDate.text.toString().trim()
-                val roomId = currentUser?.room?.id
-
-                if (roomId == null) {
-                    Toast.makeText(requireContext(), "Xona belgilanmagan! Profilingizni yangilang.", Toast.LENGTH_SHORT).show()
-                    return@setPositiveButton
-                }
-
-                val dateVal = if (date.isNotEmpty()) date else null
-
-                viewLifecycleOwner.lifecycleScope.launch {
-                    try {
-                        val api = ApiClient.getService(requireContext())
-                        val req = CreateScheduleRequest(
-                            roomId = roomId,
-                            assignedToId = selectedStudent.id,
-                            dutyTypeId = selectedDuty.id,
-                            date = dateVal
-                        )
-                        val resp = api.createSchedule(req)
-                        if (resp.isSuccessful) {
-                            Toast.makeText(
-                                requireContext(),
-                                "✅ ${selectedStudent.fullName}ga navbat biriktirildi!",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            loadData()
-                        } else {
-                            val err = resp.errorBody()?.string() ?: resp.code().toString()
-                            Toast.makeText(requireContext(), "Xatolik: $err", Toast.LENGTH_LONG).show()
                         }
                     } catch (e: Exception) {
                         Toast.makeText(requireContext(), "Xatolik: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()

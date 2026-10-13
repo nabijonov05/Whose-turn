@@ -23,5 +23,11 @@ class DutyScheduleAdmin(admin.ModelAdmin):
 
 @admin.register(DutySwapRequest)
 class DutySwapRequestAdmin(admin.ModelAdmin):
-  list_display = ('id', 'requester', 'requested_to', 'duty_schedule', 'status')
-  list_filter = ('status',)
+  list_display = ('id', 'requester', 'requested_to', 'duty_schedule', 'status', 'created_at')
+  list_filter = ('status', 'created_at')
+  search_fields = (
+      'requester__username',
+      'requester__first_name',
+      'requested_to__username',
+      'requested_to__first_name',
+  )

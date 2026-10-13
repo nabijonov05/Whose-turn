@@ -80,7 +80,6 @@ id etReason
 id etRoomNumber
 id etServerUrl
 id etUsername
-id fabAddDuty
 id fabAddExpense
 id imgLogo
 id imgNotifIcon

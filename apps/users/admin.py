@@ -25,8 +25,11 @@ class CustomUserAdmin(UserAdmin):
       'room',
       'role',
       'phone_number',
+      'is_active',
   )
-  list_filter = ('role', 'room__block')
+  list_filter = ('role', 'room__block', 'is_active')
+  search_fields = ('username', 'first_name', 'last_name', 'phone_number', 'room__number')
+  ordering = ('username',)
   fieldsets = UserAdmin.fieldsets + (
       (
           'Qo\'shimcha ma\'lumotlar',
@@ -36,6 +39,20 @@ class CustomUserAdmin(UserAdmin):
                   'room',
                   'phone_number',
                   'profile_picture',
+              )
+          },
+      ),
+  )
+  add_fieldsets = UserAdmin.add_fieldsets + (
+      (
+          'Qo\'shimcha ma\'lumotlar',
+          {
+              'fields': (
+                  'first_name',
+                  'last_name',
+                  'role',
+                  'room',
+                  'phone_number',
               )
           },
       ),

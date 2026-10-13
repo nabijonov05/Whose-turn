@@ -15,7 +15,6 @@ import androidx.viewbinding.ViewBindings;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.whoseturn.app.R;
 import com.whoseturn.app.ui.views.CircularProgressView;
 import java.lang.NullPointerException;
@@ -51,9 +50,6 @@ public final class FragmentDutiesBinding implements ViewBinding {
   public final CircularProgressView dutyCircularProgress;
 
   @NonNull
-  public final FloatingActionButton fabAddDuty;
-
-  @NonNull
   public final RecyclerView rvDuties;
 
   @NonNull
@@ -81,11 +77,11 @@ public final class FragmentDutiesBinding implements ViewBinding {
       @NonNull MaterialCardView cardDutyStats, @NonNull MaterialCardView cardTodayDuty,
       @NonNull Chip chipAll, @NonNull Chip chipCompleted, @NonNull ChipGroup chipGroupFilter,
       @NonNull Chip chipMyDuties, @NonNull Chip chipPending,
-      @NonNull CircularProgressView dutyCircularProgress, @NonNull FloatingActionButton fabAddDuty,
-      @NonNull RecyclerView rvDuties, @NonNull SwipeRefreshLayout swipeRefresh,
-      @NonNull TextView tvDutyRankSummary, @NonNull TextView tvDutyStatsSummary,
-      @NonNull TextView tvEmptyDuties, @NonNull TextView tvTodayDate,
-      @NonNull TextView tvTodayDutyStudent, @NonNull TextView tvTodayDutyType) {
+      @NonNull CircularProgressView dutyCircularProgress, @NonNull RecyclerView rvDuties,
+      @NonNull SwipeRefreshLayout swipeRefresh, @NonNull TextView tvDutyRankSummary,
+      @NonNull TextView tvDutyStatsSummary, @NonNull TextView tvEmptyDuties,
+      @NonNull TextView tvTodayDate, @NonNull TextView tvTodayDutyStudent,
+      @NonNull TextView tvTodayDutyType) {
     this.rootView = rootView;
     this.cardDutyStats = cardDutyStats;
     this.cardTodayDuty = cardTodayDuty;
@@ -95,7 +91,6 @@ public final class FragmentDutiesBinding implements ViewBinding {
     this.chipMyDuties = chipMyDuties;
     this.chipPending = chipPending;
     this.dutyCircularProgress = dutyCircularProgress;
-    this.fabAddDuty = fabAddDuty;
     this.rvDuties = rvDuties;
     this.swipeRefresh = swipeRefresh;
     this.tvDutyRankSummary = tvDutyRankSummary;
@@ -181,12 +176,6 @@ public final class FragmentDutiesBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.fabAddDuty;
-      FloatingActionButton fabAddDuty = ViewBindings.findChildViewById(rootView, id);
-      if (fabAddDuty == null) {
-        break missingId;
-      }
-
       id = R.id.rvDuties;
       RecyclerView rvDuties = ViewBindings.findChildViewById(rootView, id);
       if (rvDuties == null) {
@@ -237,8 +226,8 @@ public final class FragmentDutiesBinding implements ViewBinding {
 
       return new FragmentDutiesBinding((CoordinatorLayout) rootView, cardDutyStats, cardTodayDuty,
           chipAll, chipCompleted, chipGroupFilter, chipMyDuties, chipPending, dutyCircularProgress,
-          fabAddDuty, rvDuties, swipeRefresh, tvDutyRankSummary, tvDutyStatsSummary, tvEmptyDuties,
-          tvTodayDate, tvTodayDutyStudent, tvTodayDutyType);
+          rvDuties, swipeRefresh, tvDutyRankSummary, tvDutyStatsSummary, tvEmptyDuties, tvTodayDate,
+          tvTodayDutyStudent, tvTodayDutyType);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

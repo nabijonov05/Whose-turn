@@ -4,16 +4,12 @@
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\dialog_swap_request.xml"
     },
     {
-        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\layout_dialog_add_expense.xml.flat",
-        "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\dialog_add_expense.xml"
-    },
-    {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\drawable_bg_card.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\drawable\\bg_card.xml"
     },
     {
-        "merged": "com.whoseturn.app-debug-39:/layout_item_duty.xml.flat",
-        "source": "com.whoseturn.app-main-41:/layout/item_duty.xml"
+        "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\layout_dialog_add_expense.xml.flat",
+        "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\layout\\dialog_add_expense.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\layout_fragment_leaderboard.xml.flat",
@@ -118,6 +114,10 @@
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\drawable_bg_badge_pending.xml.flat",
         "source": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-main-41:\\drawable\\bg_badge_pending.xml"
+    },
+    {
+        "merged": "com.whoseturn.app-debug-39:/layout_fragment_duties.xml.flat",
+        "source": "com.whoseturn.app-main-41:/layout/fragment_duties.xml"
     },
     {
         "merged": "C:\\Users\\user\\.gradle\\daemon\\8.13\\com.whoseturn.app-debug-39:\\layout_dialog_server_config.xml.flat",
