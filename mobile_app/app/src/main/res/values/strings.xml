@@ -1,0 +1,87 @@
+<resources>
+    <string name="app_name">Whose Turn</string>
+    <string name="app_tagline">Yotoqxona navbatchilik va xarajatlar tizimi</string>
+    
+    <!-- Auth -->
+    <string name="login_title">Xush kelibsiz!</string>
+    <string name="login_subtitle">Tizimga kirish uchun maʼlumotlaringizni kiriting</string>
+    <string name="username">Foydalanuvchi nomi</string>
+    <string name="password">Parol</string>
+    <string name="login_btn">Kirish</string>
+    <string name="no_account">Hali hisobingiz yoʻqmi? Roʻyxatdan oʻtish</string>
+    <string name="register_title">Roʻyxatdan oʻtish</string>
+    <string name="first_name">Ism</string>
+    <string name="last_name">Familiya</string>
+    <string name="phone_number">Telefon raqam</string>
+    <string name="room_select">Xonani tanlang</string>
+    <string name="role_select">Rolni tanlang</string>
+    <string name="register_btn">Hisob yaratish</string>
+    <string name="already_account">Akkauntingiz bormi? Kirish</string>
+    <string name="server_settings">Server manzili</string>
+
+    <!-- Navigation -->
+    <string name="nav_duties">Navbat</string>
+    <string name="nav_expenses">Xaridlar</string>
+    <string name="nav_leaderboard">Reyting</string>
+    <string name="nav_notifications">Xabarlar</string>
+    <string name="nav_profile">Profil</string>
+
+    <!-- Duties -->
+    <string name="today_duty_title">Bugungi navbatchi</string>
+    <string name="tab_my_duties">Mening navbatlarim</string>
+    <string name="tab_room_duties">Xona navbatlari</string>
+    <string name="mark_completed">Bajarildi</string>
+    <string name="request_swap">Almashtirish</string>
+    <string name="status_pending">Kutilmoqda</string>
+    <string name="status_completed">Bajarildi</string>
+    <string name="status_failed">Bajarilmadi</string>
+    <string name="add_duty">Yangi navbat biriktirish</string>
+    <string name="duty_chart_title">Navbatchilik statistikasi</string>
+
+    <!-- Expenses -->
+    <string name="total_room_expenses">Xona umumiy xarajatlari</string>
+    <string name="my_debts">Mening qarzlarim</string>
+    <string name="room_expenses">Xarajatlar roʻyxati</string>
+    <string name="add_expense">Xarajat qoʻshish</string>
+    <string name="expense_title">Xarajat nomi</string>
+    <string name="expense_amount">Summa (soʻm)</string>
+    <string name="expense_category">Kategoriya</string>
+    <string name="mark_paid">Toʻlandi</string>
+    <string name="paid_status">Toʻlangan</string>
+    <string name="unpaid_status">Toʻlanmagan</string>
+    <string name="expense_chart_title">Xarajatlar taqsimoti diagrammasi</string>
+
+    <!-- Leaderboard -->
+    <string name="leaderboard_title">Talabalar reytingi</string>
+    <string name="points_suffix">ball</string>
+    <string name="penalties_history">Jarimalar tarixi</string>
+
+    <!-- Notifications -->
+    <string name="notifications_title">Bildirishnomalar</string>
+    <string name="no_notifications">Bildirishnomalar mavjud emas</string>
+    <string name="test_notification">Test SMS xabarnoma</string>
+
+    <!-- Profile & Settings -->
+    <string name="profile_title">Mening profilim</string>
+    <string name="edit_profile">Profilni tahrirlash</string>
+    <string name="upload_photo">Rasm yuklash</string>
+    <string name="change_password">Parolni oʻzgartirish</string>
+    <string name="old_password">Eski parol</string>
+    <string name="new_password">Yangi parol</string>
+    <string name="confirm_password">Yangi parolni tasdiqlang</string>
+    <string name="theme_setting">Koʻrinish (Kun / Tun)</string>
+    <string name="theme_light">Yorugʻ rejim (Kun)</string>
+    <string name="theme_dark">Qorongʻi rejim (Tun)</string>
+    <string name="theme_system">Tizim sozlamasi</string>
+    <string name="language_setting">Tilni tanlang</string>
+    <string name="lang_uz">Oʻzbekcha 🇺🇿</string>
+    <string name="lang_ru">Русский 🇷🇺</string>
+    <string name="lang_en">English 🇬🇧</string>
+    <string name="notifications_settings">SMS / Push bildirishnomalar</string>
+    <string name="logout">Chiqish</string>
+    <string name="room_info">Xona</string>
+    <string name="block_info">Blok</string>
+    <string name="role_info">Lavozim</string>
+    <string name="save">Saqlash</string>
+    <string name="cancel">Bekor qilish</string>
+</resources>

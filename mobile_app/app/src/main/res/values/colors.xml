@@ -1,0 +1,29 @@
+<resources>
+    <!-- Primary Brand Colors -->
+    <color name="primary">#4F46E5</color>
+    <color name="primary_dark">#3730A3</color>
+    <color name="primary_light">#EEF2FF</color>
+    <color name="secondary">#06B6D4</color>
+    
+    <!-- Accent & Status -->
+    <color name="success">#10B981</color>
+    <color name="success_light">#ECFDF5</color>
+    <color name="warning">#F59E0B</color>
+    <color name="warning_light">#FFFBEB</color>
+    <color name="danger">#EF4444</color>
+    <color name="danger_light">#FEF2F2</color>
+
+    <!-- Neutral Colors -->
+    <color name="background">#F8FAFC</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="card_border">#E2E8F0</color>
+    <color name="text_primary">#0F172A</color>
+    <color name="text_secondary">#64748B</color>
+    <color name="text_hint">#94A3B8</color>
+    <color name="divider">#F1F5F9</color>
+
+    <!-- Leaderboard Trophy Colors -->
+    <color name="gold">#F59E0B</color>
+    <color name="silver">#94A3B8</color>
+    <color name="bronze">#D97706</color>
+</resources>
