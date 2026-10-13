@@ -70,35 +70,35 @@ class DutyScheduleViewSet(viewsets.ModelViewSet):
               notification_type="general",
           )
 
-          # KETMA-KETLIK: Aynan SHU navbat turi (masalan Non, Suv, Tozalash) bo'yicha keyingi navbatchiga o'tkazish!
+          # KETMA-KETLIK: Aynan SHU navbat turi (masalan Non, Suv, Tozalash) bo'yicha:
+          # Xonada har doim faqat bitta odamda "Kutilmoqda" (navbati kelgan odamda) bo'ladi!
           duty_type = schedule.duty_type
           room = schedule.room
 
-          # 1. Shu vazifa turi bo'yicha o'zidan keyingi navbatchini qidirish
-          next_duty = DutySchedule.objects.filter(
-              room=room,
-              duty_type=duty_type,
-              status='pending',
-              order_index__gt=schedule.order_index
-          ).order_by('order_index').first()
+          # Xonadagi shu vazifaga ega barcha talabalar navbati
+          all_type_duties = DutySchedule.objects.filter(
+              room=room, duty_type=duty_type
+          ).order_by('order_index')
 
-          # 2. Agar keyingi pending navbatchi topilmasa, aylanma zanjir:
-          # Boshqa xonadoshlarning shu vazifasini pending qilish va 1-navbatchidan boshlash
+          # Keyingi navbatchini aniqlash (o'zidan keyingi tartib raqam)
+          next_duty = all_type_duties.filter(order_index__gt=schedule.order_index).first()
+
+          # Agar oxirgi navbatchi bajargan bo'lsa, zanjir boshidagi 1-navbatchiga aylanadi
           if not next_duty:
-            # Shu vazifa turi bo'yicha barcha navbatlarni olamiz
-            all_type_duties = DutySchedule.objects.filter(room=room, duty_type=duty_type).order_by('order_index')
-            if all_type_duties.count() > 1:
-              # O'zidan boshqa barcha navbatlarni 'pending' (kutilmoqda) holatiga qaytarish
-              all_type_duties.exclude(id=schedule.id).update(status='pending')
-              # Zanjir boshidagi 1-navbatchini olish
-              next_duty = all_type_duties.exclude(id=schedule.id).first()
+            next_duty = all_type_duties.first()
 
           if next_duty:
+            # QOIDASI: Barcha boshqa odamlarni 'completed' qilish,
+            # FAQAT navbati kelgan bitta odamni 'pending' (kutilmoqda) qilish!
+            all_type_duties.exclude(id=next_duty.id).update(status='completed')
+            next_duty.status = 'pending'
+            next_duty.save(update_fields=['status'])
+
             next_name = next_duty.assigned_to.first_name or next_duty.assigned_to.username
             Notification.objects.create(
                 user=next_duty.assigned_to,
                 title="🔔 Navbat sizga o'tdi!",
-                message=f"{schedule.assigned_to.first_name or schedule.assigned_to.username} '{duty_type.name}' navbatini bajardi. Endi '{duty_type.name}' navbati sizga keldi!",
+                message=f"{schedule.assigned_to.first_name or schedule.assigned_to.username} '{duty_type.name}' navbatini bajardi. Endi '{duty_type.name}' navbati faqat sizga keldi!",
                 notification_type="duty_reminder",
             )
       except Exception:
