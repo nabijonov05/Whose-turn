@@ -133,86 +133,64 @@ class DutiesFragment : Fragment() {
     }
 
     private fun updateTodayDutyBanner(items: List<DutySchedule>) {
-        val todayStr = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-        val todayDuties = items.filter { it.date == todayStr }
+        val pendingDuties = items.filter { it.status == "pending" }.sortedBy { it.orderIndex }
 
-        if (todayDuties.isNotEmpty()) {
-            val todayDuty = todayDuties.first()
+        if (pendingDuties.isNotEmpty()) {
+            val currentDuty = pendingDuties.first()
             binding.cardTodayDuty.visibility = View.VISIBLE
 
-            val assignedName = todayDuty.assignedTo?.fullName ?: "Noma'lum"
-            val isMyTurn = todayDuty.assignedTo?.id == currentUser?.id
+            val assignedName = currentDuty.assignedTo?.fullName ?: "Noma'lum"
+            val isMyTurn = currentDuty.assignedTo?.id == currentUser?.id
 
-            binding.tvTodayDutyStudent.text = if (isMyTurn) "🙋 Siz (bugun sizning navbatingiz!)" else "👤 $assignedName"
-            binding.tvTodayDutyType.text = "🧹 ${todayDuty.dutyType?.name ?: "Navbatchilik"}"
-            binding.tvTodayDate.text = "Bugun • ${todayDuty.date}"
+            binding.tvTodayDutyStudent.text = if (isMyTurn) "🙋 Siz (Hozir sizning navbatingiz!)" else "👤 $assignedName navbati"
+            binding.tvTodayDutyType.text = "🧹 ${currentDuty.dutyType?.name ?: "Navbatchilik"}"
+            val orderDisplay = if (currentDuty.orderIndex > 0) "#${currentDuty.orderIndex}-navbat" else "Ketma-ketlik"
+            binding.tvTodayDate.text = "$orderDisplay • ${if (!currentDuty.date.isNullOrEmpty()) currentDuty.date else "Hozirgi navbatchi"}"
 
-            // Agar bugun sizning navbatingiz bo'lsa va bajarilmagan bo'lsa bildirishnoma
-            if (isMyTurn && todayDuty.status == "pending") {
-                if (NotificationHelper.shouldShowDailyNotification(requireContext(), todayDuty.id)) {
+            // Agar joriy navbat foydalanuvchiniki bo'lsa bildirishnoma
+            if (isMyTurn) {
+                if (NotificationHelper.shouldShowDailyNotification(requireContext(), currentDuty.id)) {
                     NotificationHelper.showSmsNotification(
                         requireContext(),
-                        "🔔 Bugungi Navbatchilik Eslatmasi!",
-                        "Bugun sizning ${todayDuty.dutyType?.name ?: "xonani tozalash"} navbatingiz! Vazifani bajarishni unutmang."
+                        "🔔 Navbatchilik Eslatmasi!",
+                        "Hozir sizning ${currentDuty.dutyType?.name ?: "xonani tozalash"} navbatingiz! Vazifani bajarib 'Bajarildi' tugmasini bosing."
                     )
-                    NotificationHelper.markDailyNotificationShown(requireContext(), todayDuty.id)
+                    NotificationHelper.markDailyNotificationShown(requireContext(), currentDuty.id)
                 }
             }
         } else {
-            // Bugun navbat yo'q - keyingi navbatni ko'rsatish
-            val upcoming = items.filter { it.date > SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date()) && it.status == "pending" }
-                .sortedBy { it.date }
-            if (upcoming.isNotEmpty()) {
-                val next = upcoming.first()
-                binding.cardTodayDuty.visibility = View.VISIBLE
-                val isMyNext = next.assignedTo?.id == currentUser?.id
-                val assignedName = if (isMyNext) "Sizning" else "${next.assignedTo?.fullName ?: "Noma'lum"}ning"
-                binding.tvTodayDutyStudent.text = "📅 $assignedName navbati"
-                binding.tvTodayDutyType.text = "🧹 ${next.dutyType?.name ?: "Navbatchilik"}"
-                binding.tvTodayDate.text = next.date
-            } else {
-                binding.cardTodayDuty.visibility = View.GONE
-            }
+            binding.cardTodayDuty.visibility = View.GONE
         }
     }
 
     /**
-     * Keyingi navbatlar: Kim qancha kundan keyin navbat keladi
+     * Keyingi navbatlar: Foydalanuvchidan oldin necha kishi borligini va ketma-ketlikni ko'rsatish
      */
     private fun updateUpcomingDuties(items: List<DutySchedule>) {
-        val todayStr = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-        val today = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(todayStr) ?: Date()
+        val pendingDuties = items.filter { it.status == "pending" }.sortedBy { it.orderIndex }
 
-        // Har bir xonadoshning keyingi navbati
-        val allPeople = mutableListOf<User>()
-        currentUser?.let { allPeople.add(it) }
-        allPeople.addAll(roommates)
+        if (pendingDuties.isEmpty()) {
+            binding.tvDutyRankSummary.text = "Kutilayotgan navbatchiliklar mavjud emas"
+            return
+        }
 
+        val myIndex = pendingDuties.indexOfFirst { it.assignedTo?.id == currentUser?.id }
         val sb = StringBuilder()
-        for (person in allPeople) {
-            val nextDuty = items
-                .filter { it.assignedTo?.id == person.id && it.date >= todayStr && it.status == "pending" }
-                .sortedBy { it.date }
-                .firstOrNull()
 
-            if (nextDuty != null) {
-                val dutyDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(nextDuty.date) ?: continue
-                val diffDays = ((dutyDate.time - today.time) / (1000 * 60 * 60 * 24)).toInt()
-                val name = if (person.id == currentUser?.id) "Siz" else person.fullName
-                val whenStr = when (diffDays) {
-                    0 -> "Bugun"
-                    1 -> "Ertaga"
-                    else -> "$diffDays kundan keyin"
-                }
-                sb.append("• $name — ${nextDuty.dutyType?.name ?: "Navbat"} ($whenStr)\n")
-            }
+        if (myIndex == 0) {
+            sb.append("👉 Hozirgi navbat sizda! Bajarilgach keyingi xonadoshga o'tadi.\n\n")
+        } else if (myIndex > 0) {
+            sb.append("⏳ Sizning navbatingizga yana $myIndex ta navbat qoldi!\n\n")
         }
 
-        if (sb.isNotEmpty()) {
-            binding.tvDutyRankSummary.text = sb.toString().trimEnd()
-        } else {
-            binding.tvDutyRankSummary.text = "Rejalashtirilgan navbatlar yo'q"
+        sb.append("📋 Xona navbatlari ketma-ketligi:\n")
+        pendingDuties.take(5).forEachIndexed { idx, duty ->
+            val name = if (duty.assignedTo?.id == currentUser?.id) "Siz" else (duty.assignedTo?.fullName ?: "Noma'lum")
+            val icon = if (idx == 0) "👉" else "•"
+            sb.append("$icon ${idx + 1}-o'rinda: $name (${duty.dutyType?.name ?: "Navbat"})\n")
         }
+
+        binding.tvDutyRankSummary.text = sb.toString().trimEnd()
     }
 
     private fun updateDutyStatistics(items: List<DutySchedule>) {
@@ -357,10 +335,7 @@ class DutiesFragment : Fragment() {
                     return@setPositiveButton
                 }
 
-                if (date.isEmpty() || !date.matches(Regex("\\d{4}-\\d{2}-\\d{2}"))) {
-                    Toast.makeText(requireContext(), "Sana formatini to'g'ri kiriting: yyyy-MM-dd", Toast.LENGTH_SHORT).show()
-                    return@setPositiveButton
-                }
+                val dateVal = if (date.isNotEmpty()) date else null
 
                 viewLifecycleOwner.lifecycleScope.launch {
                     try {
@@ -369,7 +344,7 @@ class DutiesFragment : Fragment() {
                             roomId = roomId,
                             assignedToId = selectedStudent.id,
                             dutyTypeId = selectedDuty.id,
-                            date = date
+                            date = dateVal
                         )
                         val resp = api.createSchedule(req)
                         if (resp.isSuccessful) {

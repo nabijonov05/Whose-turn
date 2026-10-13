@@ -41,7 +41,12 @@ class DutySchedule(models.Model):
   duty_type = models.ForeignKey(
       DutyType, on_delete=models.CASCADE, verbose_name='Navbat turi'
   )
-  date = models.DateField(verbose_name='Navbat sanasi')
+  date = models.DateField(
+      blank=True, null=True, verbose_name='Navbat sanasi'
+  )
+  order_index = models.PositiveIntegerField(
+      default=0, verbose_name="Navbat ketma-ketlik indeksi"
+  )
   status = models.CharField(
       max_length=15,
       choices=STATUS_CHOICES,
@@ -57,11 +62,10 @@ class DutySchedule(models.Model):
   created_at = models.DateTimeField(auto_now_add=True)
 
   class Meta:
-    unique_together = ('assigned_to', 'duty_type', 'date')
-    ordering = ['-date']
+    ordering = ['order_index', 'id']
 
   def __str__(self):
-    return f'{self.date} - {self.assigned_to.username} ({self.duty_type.name})'
+    return f'#{self.order_index} {self.assigned_to.username} ({self.duty_type.name}) - {self.status}'
 
 
 class DutySwapRequest(models.Model):

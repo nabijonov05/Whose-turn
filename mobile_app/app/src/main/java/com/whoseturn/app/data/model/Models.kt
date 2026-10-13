@@ -55,7 +55,8 @@ data class DutySchedule(
     @SerializedName("assigned_to_id") val assignedToId: Int? = null,
     @SerializedName("duty_type") val dutyType: DutyType? = null,
     @SerializedName("duty_type_id") val dutyTypeId: Int? = null,
-    val date: String,
+    val date: String? = null,
+    @SerializedName("order_index") val orderIndex: Int = 0,
     val status: String = "pending",
     @SerializedName("proof_image") val proofImage: String? = null
 )
@@ -176,7 +177,7 @@ data class CreateScheduleRequest(
     @SerializedName("room_id") val roomId: Int,
     @SerializedName("assigned_to_id") val assignedToId: Int,
     @SerializedName("duty_type_id") val dutyTypeId: Int,
-    val date: String
+    val date: String? = null
 )
 
 data class UpdateStatusRequest(

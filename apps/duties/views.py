@@ -34,10 +34,17 @@ class DutyScheduleViewSet(viewsets.ModelViewSet):
 
   def get_queryset(self):
     user = self.request.user
-    # Xonadagi BARCHA xonadoshlarning navbatlarini ko'rsatish
+    # Xonadagi BARCHA xonadoshlarning navbatlarini tartib bilan ko'rsatish
     if user.room:
-      return DutySchedule.objects.filter(room=user.room).order_by('date')
-    return DutySchedule.objects.filter(assigned_to=user).order_by('date')
+      return DutySchedule.objects.filter(room=user.room).order_by('order_index', 'id')
+    return DutySchedule.objects.filter(assigned_to=user).order_by('order_index', 'id')
+
+  def perform_create(self, serializer):
+    user = self.request.user
+    room = serializer.validated_data.get('room') or user.room
+    last_duty = DutySchedule.objects.filter(room=room).order_by('-order_index').first()
+    next_order = (last_duty.order_index + 1) if last_duty else 1
+    serializer.save(order_index=next_order)
 
   def perform_update(self, serializer):
     old_status = self.get_object().status
@@ -53,14 +60,39 @@ class DutyScheduleViewSet(viewsets.ModelViewSet):
           rating.score += 10
           rating.completed_duties_count += 1
           rating.save()
-          # Bildirishnoma yuborish
+
+          # Bajaruvchiga bildirishnoma
           from apps.notifications.models import Notification
           Notification.objects.create(
               user=schedule.assigned_to,
               title="✅ Navbat bajarildi! +10 ball",
-              message=f"'{schedule.duty_type.name}' navbatini bajarganingiz uchun 10 ball qo'shildi. Umumiy ball: {rating.score}",
+              message=f"'{schedule.duty_type.name}' navbatini bajarganingiz uchun 10 ball qo'shildi. Umumiy ballingiz: {rating.score}",
               notification_type="general",
           )
+
+          # KETMA-KETLIK: Keyingi navbatchini aniqlash va unga bildirishnoma yuborish!
+          next_duty = DutySchedule.objects.filter(
+              room=schedule.room,
+              status='pending',
+              order_index__gt=schedule.order_index
+          ).order_by('order_index').first()
+
+          # Agar navbat tugagan bo'lsa, zanjirni boshidan qaytarish (aylanma navbat)
+          if not next_duty:
+            next_duty = DutySchedule.objects.filter(
+                room=schedule.room,
+                status='pending'
+            ).order_by('order_index').first()
+
+          if next_duty and next_duty.assigned_to != schedule.assigned_to:
+            next_name = next_duty.assigned_to.first_name or next_duty.assigned_to.username
+            Notification.objects.create(
+                user=next_duty.assigned_to,
+                title="🔔 Navbat sizga o'tdi!",
+                message=f"{schedule.assigned_to.first_name or schedule.assigned_to.username} navbatni bajardi. Endi '{next_duty.duty_type.name}' navbati sizga keldi!",
+                notification_type="duty_reminder",
+            )
+
         elif new_status == 'failed' and old_status == 'pending':
           rating.score = max(0, rating.score - 15)
           rating.failed_duties_count += 1
@@ -93,10 +125,12 @@ class DutySwapRequestViewSet(viewsets.ModelViewSet):
     swap = serializer.save(requester=self.request.user)
     try:
       from apps.notifications.models import Notification
+      req_name = self.request.user.first_name or self.request.user.username
+      reason_txt = f" Sabab: {swap.reason}" if swap.reason else ""
       Notification.objects.create(
           user=swap.requested_to,
-          title="🔄 Navbat almashtirish so'rovi",
-          message=f"{self.request.user.first_name or self.request.user.username} {swap.duty_schedule.date} sanadagi navbatni siz bilan almashtirmoqchi.",
+          title="🔄 Navbat almashtirish so'rovi!",
+          message=f"{req_name} siz bilan '{swap.duty_schedule.duty_type.name}' navbatini almashtirmoqchi.{reason_txt}",
           notification_type="swap_request",
       )
     except Exception:
@@ -106,14 +140,29 @@ class DutySwapRequestViewSet(viewsets.ModelViewSet):
     swap = serializer.save()
     if swap.status == 'approved':
       schedule = swap.duty_schedule
+      # Ikki talabaning navbatlarini to'liq almashtirish (agar requested_to ning ham navbati bo'lsa)
+      other_duty = DutySchedule.objects.filter(
+          room=schedule.room,
+          assigned_to=swap.requested_to,
+          status='pending'
+      ).exclude(id=schedule.id).order_by('order_index').first()
+
+      if other_duty:
+        # Ikkalasining o'rnini almashtirish
+        other_duty.assigned_to = swap.requester
+        other_duty.save(update_fields=['assigned_to'])
+
       schedule.assigned_to = swap.requested_to
-      schedule.save()
+      schedule.save(update_fields=['assigned_to'])
+
       try:
         from apps.notifications.models import Notification
+        req_name = swap.requester.first_name or swap.requester.username
+        resp_name = swap.requested_to.first_name or swap.requested_to.username
         Notification.objects.create(
             user=swap.requester,
-            title="✅ Navbat almashtirildi",
-            message=f"{swap.requested_to.first_name or swap.requested_to.username} sizning navbat almashtirish so'rovingizni qabul qildi.",
+            title="✅ Navbat almashinuvi qabul qilindi!",
+            message=f"{resp_name} navbat almashtirish so'rovingizni qabul qildi. Navbatlar o'rni almashdi.",
             notification_type="swap_request",
         )
       except Exception:
@@ -121,10 +170,11 @@ class DutySwapRequestViewSet(viewsets.ModelViewSet):
     elif swap.status == 'rejected':
       try:
         from apps.notifications.models import Notification
+        resp_name = swap.requested_to.first_name or swap.requested_to.username
         Notification.objects.create(
             user=swap.requester,
-            title="❌ Navbat almashtirilmadi",
-            message=f"{swap.requested_to.first_name or swap.requested_to.username} navbat almashtirish so'rovingizni rad etdi.",
+            title="❌ Navbat almashinuvi rad etildi",
+            message=f"{resp_name} navbat almashtirish so'rovingizni rad etdi.",
             notification_type="swap_request",
         )
       except Exception:

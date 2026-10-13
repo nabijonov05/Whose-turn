@@ -26,6 +26,8 @@ class DutyScheduleSerializer(serializers.ModelSerializer):
       queryset=DutyType.objects.all(), source='duty_type', write_only=True
   )
 
+  date = serializers.DateField(required=False, allow_null=True)
+
   class Meta:
     model = DutySchedule
     fields = [
@@ -37,6 +39,7 @@ class DutyScheduleSerializer(serializers.ModelSerializer):
         'duty_type',
         'duty_type_id',
         'date',
+        'order_index',
         'status',
         'proof_image',
     ]
@@ -67,4 +70,4 @@ class DutySwapRequestSerializer(serializers.ModelSerializer):
         'status',
         'created_at',
     ]
-    read_only_fields = ['requester', 'status']
+    read_only_fields = ['requester']

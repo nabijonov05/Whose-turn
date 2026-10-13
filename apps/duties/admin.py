@@ -9,8 +9,8 @@ class DutyTypeAdmin(admin.ModelAdmin):
 
 @admin.register(DutySchedule)
 class DutyScheduleAdmin(admin.ModelAdmin):
-  list_display = ('id', 'room', 'assigned_to', 'duty_type', 'date', 'status')
-  list_filter = ('status', 'duty_type', 'date')
+  list_display = ('id', 'room', 'assigned_to', 'duty_type', 'order_index', 'date', 'status')
+  list_filter = ('room', 'status', 'duty_type')
   search_fields = (
       'assigned_to__username',
       'assigned_to__first_name',
