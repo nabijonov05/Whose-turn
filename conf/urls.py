@@ -19,12 +19,21 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from django.http import JsonResponse
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
 
+def health_check(request):
+    return JsonResponse({
+        'status': 'ok',
+        'message': 'Whose-Turn API is running successfully!',
+        'version': '2.0'
+    })
+
 urlpatterns = [
+    path('', health_check, name='health_check'),
     path('admin/', admin.site.urls),
     
     # JWT Login va Token yangilash endpoint'lari
