@@ -7,9 +7,9 @@ from .views import (
 )
 
 router = DefaultRouter()
-router.register(r'categories', ExpenseCategoryViewSet)
-router.register(r'expenses', ExpenseViewSet)
-router.register(r'shared-payments', SharedPaymentViewSet)
+router.register(r'categories', ExpenseCategoryViewSet, basename='expensecategory')
+router.register(r'expenses', ExpenseViewSet, basename='expense')
+router.register(r'shared-payments', SharedPaymentViewSet, basename='sharedpayment')
 
 urlpatterns = [
     path('', include(router.urls)),
